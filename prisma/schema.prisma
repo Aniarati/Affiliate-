@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  category    String?
+  commission  Float    @default(0.0)
+  imageUrl    String?
+  affiliateUrl String
+  status      String   @default("active")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  campaigns Campaign[]
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("active")
+  budget      Float    @default(0.0)
+  spent       Float    @default(0.0)
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  ads         Ad[]
+  clicks      Click[]
+  conversions Conversion[]
+}
+
+model Ad {
+  id          String    @id @default(cuid())
+  headline    String
+  body        String?
+  cta         String?
+  targetUrl   String
+  status      String    @default("active")
+  impressions Int       @default(0)
+  campaignId  String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  clicks      Click[]
+}
+
+model Click {
+  id          String   @id @default(cuid())
+  ip          String?
+  country     String?
+  device      String?
+  adId        String
+  ad          Ad       @relation(fields: [adId], references: [id])
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  createdAt   DateTime @default(now())
+
+  conversion  Conversion?
+}
+
+model Conversion {
+  id          String   @id @default(cuid())
+  revenue     Float    @default(0.0)
+  status      String   @default("pending")
+  clickId     String   @unique
+  click       Click    @relation(fields: [clickId], references: [id])
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model AiChatMessage {
+  id        String   @id @default(cuid())
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+}
