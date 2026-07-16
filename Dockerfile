@@ -16,6 +16,7 @@ RUN bunx prisma generate
 # Build stage
 FROM base AS builder
 WORKDIR /app
+RUN npm install -g bun
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
