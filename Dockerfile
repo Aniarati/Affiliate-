@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY package.json bun.lock ./
 RUN npm install -g bun
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # Rebuild prisma client
 RUN bunx prisma generate
