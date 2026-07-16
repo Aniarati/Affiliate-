@@ -55,7 +55,6 @@ async function seed() {
   const countries = ['US', 'UK', 'CA', 'AU', 'DE', 'FR', 'JP', 'BR', 'IN', 'MX'];
   const devices = ['Desktop', 'Mobile', 'Tablet'];
 
-  // Generate data for last 14 days only to be faster
   for (let day = 13; day >= 0; day--) {
     const baseDate = new Date();
     baseDate.setDate(baseDate.getDate() - day);
@@ -96,7 +95,7 @@ async function seed() {
     }
   }
 
-  console.log(`Seeded: ${products.length} products, ${campaigns.length} campaigns, ${ads.length} ads`);
+  console.log('Seed complete!');
 }
 
 seed().catch(console.error).finally(() => db.$disconnect());

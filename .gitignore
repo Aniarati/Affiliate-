@@ -52,3 +52,10 @@ prompt
 server.log
 # Skills directory
 /skills/
+
+# Railway / local dev
+db/
+upload/
+download/
+.zscripts/
+.claude/

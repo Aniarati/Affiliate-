@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitignore
+db
+*.log
+scripts
+upload
+download
+.zscripts
+.env
+dev.log
+server.log
+custom.db
